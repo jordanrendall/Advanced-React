@@ -1,2 +1,3 @@
-endpoint: https://us1.prisma.sh/jordan-rendall-8b0f4c/sick-fits/dev
+endpoint: ${env:PRISMA_ENDPOINT}
 datamodel: datamodel.prisma
+#secret: ${env:PRISMA_SECRET}
