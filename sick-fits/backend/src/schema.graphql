@@ -1,4 +1,5 @@
 # import * from './generated/prisma.graphql'
+#front facing
 
 type Mutation {
   createItem(
@@ -11,5 +12,5 @@ type Mutation {
 }
 
 type Query {
-  item: [Item]!
+  items: [Item]!
 }
