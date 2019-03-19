@@ -14,6 +14,15 @@ export default class CreateItem extends Component {
     price: 0 //can have trailing commas in ES6
   };
 
+  //can use arrow functions to get 'this' keyword assumed to be this object, and do not have to bind function to 'this'
+  handleChange = e => {
+    const { name, type, value } = e.target;
+    const val = type === "number" ? parseFloat(value) : value;
+    this.setState({
+      [name]: val
+    });
+  };
+
   render() {
     return (
       <Form>
@@ -27,6 +36,20 @@ export default class CreateItem extends Component {
               placeholder="Title"
               required
               value={this.state.title}
+              onChange={this.handleChange}
+            />
+          </label>
+
+          <label htmlFor="price">
+            Price
+            <input
+              type="number"
+              id="price"
+              name="price"
+              placeholder="Price"
+              required
+              value={this.state.price}
+              onChange={this.handleChange}
             />
           </label>
         </fieldset>
