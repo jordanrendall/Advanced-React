@@ -5,6 +5,7 @@ const db = require("./db");
 
 function createServer() {
   return new GraphQLServer({
+    //Ingests the following schema graphql file
     typeDefs: "src/schema.graphql",
     resolvers: {
       Mutation,
@@ -13,6 +14,7 @@ function createServer() {
     resolverValidationOptions: {
       requireResolversForResolveType: false
     },
+    //expose the database to every request
     context: req => ({ ...req, db })
   });
 }
