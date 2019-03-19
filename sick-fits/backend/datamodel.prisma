@@ -1,5 +1,20 @@
+#after any changes to datamodel, must deploy to prisma (npm run deploy)
+#backend
+
 type User {
   id: ID! @unique
   name: String!
   email: String!
+}
+
+type Item {
+  id: ID! @unique
+  title: String!
+  description: String!
+  image: String
+  largeImage: String
+  price: Int!
+  # createdAt: DateTime! #only available because of prisma - not in normal graphql
+  # updatedAt: DateTime!
+  # user: User!
 }
