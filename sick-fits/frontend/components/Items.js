@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import styled from "styled-components";
+import Item from "./Item";
 
 //locate queries locally to where it is used, and export for external use
 const ALL_ITEMS_QUERY = gql`
@@ -31,10 +32,11 @@ const ItemsList = styled.div`
 `;
 
 export default class Items extends Component {
+  //Don't use index of map item for key because if one gets removed, all items change and rerender
+
   render() {
     return (
       <Center>
-        <p>Items</p>
         <Query query={ALL_ITEMS_QUERY}>
           {({ data, error, loading }) => {
             if (loading) return <p>Loading ...</p>;
@@ -42,7 +44,7 @@ export default class Items extends Component {
             return (
               <ItemsList>
                 {data.items.map((item, i) => (
-                  <p key={`item-${i}`}>{item.title}</p>
+                  <Item item={item} key={item.id} />
                 ))}
               </ItemsList>
             );
@@ -52,3 +54,5 @@ export default class Items extends Component {
     );
   }
 }
+
+export { ALL_ITEMS_QUERY };
