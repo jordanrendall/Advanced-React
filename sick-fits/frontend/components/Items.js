@@ -7,6 +7,7 @@ import Item from "./Item";
 //locate queries locally to where it is used, and export for external use
 const ALL_ITEMS_QUERY = gql`
   # use same name as variable
+  #READ portion of CRUD
   query ALL_ITEMS_QUERY {
     items {
       id
