@@ -7,33 +7,36 @@ import formatMoney from "../lib/formatMoney";
 import Error from "./ErrorMessage";
 
 const SINGLE_ITEM_QUERY = gql`
-  query SINGLE_ITEM_QUERY(
-    item(where: {id: $id}) 
-    {id
-    title
-    description
-    price}
-  )
-
+  query SINGLE_ITEM_QUERY($id: ID!) {
+    item(where: { id: $id }) {
+      id
+      title
+      description
+      price
+    }
+  }
 `;
 
 //CREATE part of CRUD
 const UPDATE_ITEM_MUTATION = gql`
   mutation UPDATE_ITEM_MUTATION(
-    $title: String!
-    $description: String!
-    $price: Int!
-    $image: String
-    $largeImage: String
+    # mutation parameters
+    $id: ID!
+    $title: String
+    $description: String
+    $price: Int
   ) {
-    createItem(
-      title: $title
+    # mutation
+    updateItem(
+      id: $id
+      title: $title #refers to above parameters
       description: $description
-      price: $price
-      image: $image
-      largeImage: $largeImage
+      price: $price # returns
     ) {
       id
+      title
+      description
+      price
     }
   }
 `;
@@ -51,6 +54,19 @@ export default class UpdateItem extends Component {
     });
   };
 
+  updateItem = async (e, updateItemMutation) => {
+    e.preventDefault();
+
+    console.log("Updating item!");
+    console.log(this.state);
+    const res = await updateItemMutation({
+      variables: {
+        id: this.props.id,
+        ...this.state
+      }
+    });
+  };
+
   render() {
     return (
       <Query
@@ -61,24 +77,13 @@ export default class UpdateItem extends Component {
       >
         {({ data, loading }) => {
           if (loading) return <p>Loading...</p>;
+          if (!data.item) return <p>No Item Found for Id {this.props.id}</p>;
+
           return (
             //THe only child of a query can be a function
             <Mutation mutation={UPDATE_ITEM_MUTATION} variables={this.state}>
-              {(createItem, { loading, error }) => (
-                <Form
-                  onSubmit={async e => {
-                    //Stop the form from submitting
-                    e.preventDefault();
-                    //call the mutation
-                    const res = await createItem();
-                    //route user to the single item page
-                    console.log(res);
-                    Router.push({
-                      pathname: "/item",
-                      query: { id: res.data.createItem.id }
-                    });
-                  }}
-                >
+              {(updateItem, { loading, error }) => (
+                <Form onSubmit={e => this.updateItem(e, updateItem)}>
                   <Error error={error} />
                   <fieldset
                     disabled={loading}
