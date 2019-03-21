@@ -129,7 +129,9 @@ export default class UpdateItem extends Component {
                       />
                     </label>
                     {/* Submit buttons normally send all info to the URL bar */}
-                    <button type="submit">Save</button>
+                    <button type="submit">
+                      Sav{loading ? "ing" : "e"} Changes
+                    </button>
                   </fieldset>
                 </Form>
               )}
