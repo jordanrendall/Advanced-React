@@ -1,3 +1,5 @@
+//THIS FILE IS JUST EXPRESS
+const cookieParser = require("cookie-parser");
 //Expose environment variables file to this index file
 require("dotenv").config({ path: "variables.env" });
 const createServer = require("./createServer");
@@ -6,7 +8,9 @@ const db = require("./db");
 //spin up server
 const server = createServer();
 
-//TODO: use express middleware to handle cookies (JWT)
+//Use express middleware to handle cookies (JWT)
+server.express.use(cookieParser());
+
 //TODO: use express middleware to populate current user
 
 server.start(
