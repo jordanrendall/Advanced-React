@@ -8,11 +8,11 @@ const Columns = styled.div`
 `;
 
 const SignupPage = props => (
-  <div>
+  <Columns>
     <Signup />
     <Signup />
     <Signup />
-  </div>
+  </Columns>
 );
 
 export default SignupPage;
