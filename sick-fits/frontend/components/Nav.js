@@ -7,9 +7,10 @@ export default function Nav() {
   return (
     <NavStyles>
       <User>
-        {data => {
-          console.log(data);
-          return <p>User</p>;
+        {({ data: { me } }) => {
+          console.log(me);
+          if (me) return <p>{me.name}</p>;
+          return null;
         }}
       </User>
       <Link href="/items">
