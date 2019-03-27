@@ -126,7 +126,6 @@ const Mutations = {
       data: { resetToken, resetTokenExpiry }
     });
     //email that reset token
-    console.log(res);
     return { message: "Thanks!" };
   },
   async resetPassword(
