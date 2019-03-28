@@ -27,13 +27,13 @@ class RequestReset extends Component {
     return (
       //variables include all of state so full state can be sent as variables
       <Mutation mutation={REQUEST_RESET_MUTATION} variables={this.state}>
-        {(reset, { error, loading, called }) => {
+        {(requestReset, { error, loading, called }) => {
           return (
             <Form
               method="post"
               onSubmit={async e => {
                 e.preventDefault();
-                await reset();
+                await requestReset();
                 this.setState({ email: "" });
               }}
             >
