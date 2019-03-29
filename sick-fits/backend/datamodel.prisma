@@ -27,6 +27,7 @@ type Item {
   image: String
   largeImage: String
   price: Int!
+  user: User!
   # createdAt: DateTime! #only available because of prisma - not in normal graphql
   # updatedAt: DateTime!
   # user: User!
