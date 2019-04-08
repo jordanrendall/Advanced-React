@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Table = styled.table`
   border-spacing: 0;
@@ -20,6 +20,10 @@ const Table = styled.table`
         width: 100%;
       }
     }
+  }
+  label {
+    background: yellow;
+    display: block;
   }
   tr {
     &:hover {
