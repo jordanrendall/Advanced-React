@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const { randomBytes } = require("crypto");
 const { promisify } = require("util");
 const { transport, makeANiceEmail } = require("../mail");
+const { hasPermission } = require("../utils");
 
 const Mutations = {
   //   createDog(parent, args, ctx, info) {
@@ -189,6 +190,36 @@ const Mutations = {
     });
     //return user
     return updatedUser;
+  },
+
+  async updatePermissions(parent, args, ctx, info) {
+    //Check if logged in
+    if (!ctx.request.userId) {
+      throw new Error("You must be logged in!");
+    }
+    //query current user
+    const currentUser = await ctx.db.query.user(
+      {
+        where: {
+          id: ctx.request.userId
+        }
+      },
+      info
+    );
+    //check if they have permisisons to do this
+    hasPermission(currentUser, ["ADMIN", "PERMISSIONUPDATE"]);
+    //update permissions
+    return ctx.db.mutation.updateUser(
+      {
+        data: {
+          permissions: { set: args.permissions }
+        },
+        where: {
+          id: args.userId
+        }
+      },
+      info
+    );
   }
 };
 
