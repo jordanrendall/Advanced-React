@@ -12,24 +12,38 @@ const LOCAL_STATE_QUERY = gql`
   }
 `;
 
+const TOGGLE_CART_MUTATION = gql`
+  mutation {
+    toggleCart @client
+  }
+`;
+
 const Cart = () => {
   return (
-    <Query query={LOCAL_STATE_QUERY}>
-      {({ data }) => (
-        <CartStyles open={data.cartOpen}>
-          <header>
-            <CloseButton title="close">&times;</CloseButton>
-            <Supreme>Your Cart</Supreme>
-            <p>You Have __ Items in your Cart</p>
-          </header>
-          <footer>
-            <p>$10.10</p>
-            <SickButton>Checkout</SickButton>
-          </footer>
-        </CartStyles>
+    <Mutation mutation={TOGGLE_CART_MUTATION}>
+      {toggleCart => (
+        <Query query={LOCAL_STATE_QUERY}>
+          {({ data }) => (
+            <CartStyles open={data.cartOpen}>
+              <header>
+                <CloseButton onClick={toggleCart} title="close">
+                  &times;
+                </CloseButton>
+                <Supreme>Your Cart</Supreme>
+                <p>You Have __ Items in your Cart</p>
+              </header>
+              <footer>
+                <p>$10.10</p>
+                <SickButton>Checkout</SickButton>
+              </footer>
+            </CartStyles>
+          )}
+        </Query>
       )}
-    </Query>
+    </Mutation>
   );
 };
 
 export default Cart;
+export { LOCAL_STATE_QUERY };
+export { TOGGLE_CART_MUTATION };
