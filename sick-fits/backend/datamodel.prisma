@@ -18,6 +18,7 @@ type User {
   resetToken: String
   resetTokenExpiry: String
   permissions: [Permission]
+  cart: [CartItem!]!
 }
 
 type Item {
@@ -31,4 +32,11 @@ type Item {
   # createdAt: DateTime! #only available because of prisma - not in normal graphql
   # updatedAt: DateTime!
   # user: User!
+}
+
+type CartItem {
+  id: ID! @unique
+  quantity: Int! @default(value: 1)
+  item: Item! #relationship to Item
+  user: User! #relationship to User
 }

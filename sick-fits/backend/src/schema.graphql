@@ -1,5 +1,5 @@
 # import * from './generated/prisma.graphql'
-#front facing
+#front facing / client side
 
 #created own type:
 type SuccessMessage {
@@ -27,6 +27,7 @@ type Mutation {
     confirmPassword: String!
   ): User!
   updatePermissions(permissions: [Permission], userId: ID!): User
+  addToCart(id: ID!): CartItem
 }
 
 type Query {
@@ -46,4 +47,5 @@ type User {
   name: String!
   email: String!
   permissions: [Permission!]!
+  cart: [CartItem!]!
 }
