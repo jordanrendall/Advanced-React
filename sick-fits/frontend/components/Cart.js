@@ -6,6 +6,7 @@ import CartStyles from "./styles/CartStyles";
 import Supreme from "./styles/Supreme";
 import CloseButton from "./styles/CloseButton";
 import SickButton from "./styles/SickButton";
+import CartItem from "./CartItem";
 
 const LOCAL_STATE_QUERY = gql`
   query {
@@ -43,7 +44,7 @@ const Cart = () => {
                     </header>
                     <ul>
                       {me.cart.map(cartItem => (
-                        <li>{cartItem.id}</li>
+                        <CartItem key={cartItem.id} cartItem={cartItem} />
                       ))}
                     </ul>
 
