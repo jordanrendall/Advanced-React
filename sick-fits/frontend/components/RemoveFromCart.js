@@ -6,8 +6,8 @@ import gql from "graphql-tag";
 import { CURRENT_USER_QUERY } from "./User";
 
 const REMOVE_FROM_CART_MUTATION = gql`
-  mutation removeFromCart($id: ID!) {
-    removeFromCart(id: $id) {
+  mutation removeCartItem($id: ID!) {
+    removeCartItem(id: $id) {
       id
     }
   }
@@ -33,11 +33,11 @@ class RemoveFromCart extends React.Component {
         mutation={REMOVE_FROM_CART_MUTATION}
         variables={{ id: this.props.id }}
       >
-        {(removeFromCart, { loading, error }) => (
+        {(removeCartItem, { loading, error }) => (
           <BigButton
             disabled={loading}
             onClick={() => {
-              removeFromCart().catch(err => alert(err.message));
+              removeCartItem().catch(err => alert(err.message));
             }}
             title="Delete Item"
           >
