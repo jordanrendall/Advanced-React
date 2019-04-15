@@ -27,11 +27,36 @@ class RemoveFromCart extends React.Component {
   static propTypes = {
     id: PropTypes.string.isRequired
   };
+
+  //This gets called as soon as we get a response back form the server after a mutation has been performed
+  update = (cache, payload) => {
+    console.log("Running remove from cart update function");
+    //first read the cache
+    const data = cache.readQuery({ query: CURRENT_USER_QUERY });
+    console.log(data);
+    //remove item from cart
+    const cartItemId = payload.data.removeCartItem.id;
+    data.me.cart = data.me.cart.filter(cartItem => cartItem.id !== cartItemId);
+    //write back to cache
+    cache.writeQuery({ query: CURRENT_USER_QUERY, data });
+  };
+
   render() {
     return (
       <Mutation
         mutation={REMOVE_FROM_CART_MUTATION}
         variables={{ id: this.props.id }}
+        // Could use refetchqueries to refresh cart, but there is a lag on slow connections
+        // refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+        //instead use: update
+        update={this.update}
+        optimisticResponse={{
+          __typename: "Mutation",
+          removeCartItem: {
+            __typename: "CartItem",
+            id: this.props.id
+          }
+        }}
       >
         {(removeCartItem, { loading, error }) => (
           <BigButton
