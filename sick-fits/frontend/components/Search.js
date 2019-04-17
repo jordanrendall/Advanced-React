@@ -98,6 +98,9 @@ class AutoComplete extends React.Component {
                       {item.title}
                     </DropDownItem>
                   ))}
+                  {!this.state.items.length && !this.state.loading && (
+                    <DropDownItem>Nothing found for {inputValue}</DropDownItem>
+                  )}
                 </DropDown>
               )}
             </div>
