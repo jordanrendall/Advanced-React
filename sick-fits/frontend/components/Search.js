@@ -3,7 +3,7 @@ import Downshift from 'downshift';
 import Router from 'next/router';
 import { ApolloConsumer } from 'react-apollo';
 import gql from 'graphql-tag';
-import dbounce from 'lodash.debounce';
+import debounce from 'lodash.debounce';
 import { DropDown, DropDownItem, SearchStyles } from './styles/DropDown';
 
 const SEARCH_ITEMS_QUERY = gql`
@@ -24,17 +24,49 @@ const SEARCH_ITEMS_QUERY = gql`
 `;
 
 class AutoComplete extends React.Component {
+  state = {
+    items: [],
+    loading: false,
+  };
+
+  //Debounce takes care of fast typing - only one query is run after 350ms
+  onChange = debounce(async (e, client) => {
+    console.log('Searching...');
+    //Turn loading on
+    this.setState({ loading: true });
+    //manually query apollo client
+    const res = await client.query({
+      query: SEARCH_ITEMS_QUERY,
+      variables: { searchTerm: e.target.value },
+    });
+    this.setState({
+      items: res.data.items,
+      loading: false,
+    });
+    console.log(res);
+  }, 350);
   render() {
     return (
       <SearchStyles>
         <div>
           <ApolloConsumer>
             {client => (
-              <input type='search' onChange={() => console.log(client)} />
+              <input
+                type='search'
+                onChange={e => {
+                  e.persist();
+                  this.onChange(e, client);
+                }}
+              />
             )}
           </ApolloConsumer>
           <DropDown>
-            <p>Items will go here</p>
+            {this.state.items.map(item => (
+              <DropDownItem key={item.id}>
+                <img width='50' src={item.image} alt={item.title} />
+                {item.title}
+              </DropDownItem>
+            ))}
           </DropDown>
         </div>
       </SearchStyles>
