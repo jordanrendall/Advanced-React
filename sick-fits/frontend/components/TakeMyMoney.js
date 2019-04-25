@@ -17,7 +17,7 @@ class TakeMyMoney extends React.Component {
   render() {
     return (
       <User>
-        {({ data: me }) =>
+        {({ data: { me } }) =>
           me.cart ? (
             <StripeCheckout
               //ALWAYS NEED TO SEND CENTS TO STRIPE
