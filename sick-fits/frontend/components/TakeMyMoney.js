@@ -14,6 +14,10 @@ function totalItems(cart) {
 }
 
 class TakeMyMoney extends React.Component {
+  onToken = res => {
+    console.log('On token called');
+    console.log(res.id);
+  };
   render() {
     return (
       <User>
@@ -28,6 +32,7 @@ class TakeMyMoney extends React.Component {
               stripeKey='pk_test_jghjTBcGR38ihl8xhGJkGHaR00qYYejQct'
               currency='CAD'
               email={me.email}
+              token={res => this.onToken(res)}
             >
               {this.props.children}
             </StripeCheckout>
