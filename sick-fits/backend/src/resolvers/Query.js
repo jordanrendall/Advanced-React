@@ -1,11 +1,11 @@
-const { forwardTo } = require("prisma-binding");
-const { hasPermission } = require("../utils");
+const { forwardTo } = require('prisma-binding');
+const { hasPermission } = require('../utils');
 
 const Query = {
   //for before using authentication or any extra work on the yoga side, can forward directly to prisma db using forwardTo
-  items: forwardTo("db"),
-  item: forwardTo("db"),
-  itemsConnection: forwardTo("db"),
+  items: forwardTo('db'),
+  item: forwardTo('db'),
+  itemsConnection: forwardTo('db'),
   me(parent, args, ctx, info) {
     //check if there is a current user id
     if (!ctx.request.userId) {
@@ -20,16 +20,16 @@ const Query = {
   async users(parent, args, ctx, info) {
     //check if logged in
     if (!ctx.request.userId) {
-      throw new Error("You must be logged in!");
+      throw new Error('You must be logged in!');
     }
     //check if user has permissions to query all users
     const allowed = hasPermission(ctx.request.user, [
-      "ADMIN",
-      "PERMISSIONUPDATE"
+      'ADMIN',
+      'PERMISSIONUPDATE',
     ]);
     //query all users
     return ctx.db.query.users({}, info);
-  }
+  },
 };
 
 module.exports = Query;
