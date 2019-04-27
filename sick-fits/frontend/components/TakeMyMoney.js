@@ -22,14 +22,14 @@ class TakeMyMoney extends React.Component {
     return (
       <User>
         {({ data: { me } }) =>
-          me.cart ? (
+          me.cart.length ? (
             <StripeCheckout
               //ALWAYS NEED TO SEND CENTS TO STRIPE
               amount={calcTotalPrice(me.cart)}
               name='Sick Fits'
               description={`Order of ${totalItems(me.cart)} items!`}
               image={me.cart[0].item && me.cart[0].item.image}
-              stripeKey='pk_test_jghjTBcGR38ihl8xhGJkGHaR00qYYejQct'
+              stripeKey={process.env.STRIPE_SECRET}
               currency='CAD'
               email={me.email}
               token={res => this.onToken(res)}
