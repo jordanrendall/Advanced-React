@@ -36,13 +36,15 @@ const Query = {
     //query current order
     const order = await ctx.db.query.order(
       {
-        where: { id: args.userId },
+        where: { id: args.id },
       },
       info
     );
     //check if they have permissions
     const ownsOrder = order.user.id === ctx.request.userId;
-    const hasPermissionToSeeOrder = ctx.request.user.permissions.includes('AD');
+    const hasPermissionToSeeOrder = ctx.request.user.permissions.includes(
+      'ADMIN'
+    );
     if (!ownsOrder || !hasPermissionToSeeOrder) {
       throw new Error("You can't see this!");
     }
