@@ -1,3 +1,12 @@
-const Order = props => <div>This is a single order</div>;
+import PleaseSignIn from '../components/PleaseSignin';
+import Order from '../components/Order';
 
-export default Order;
+const OrderPage = props => (
+  <div>
+    <PleaseSignIn>
+      <Order id={props.query.id} />
+    </PleaseSignIn>
+  </div>
+);
+
+export default OrderPage;
