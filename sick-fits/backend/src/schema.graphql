@@ -43,6 +43,7 @@ type Query {
   itemsConnection(where: ItemWhereUniqueInput): ItemConnection!
   me: User
   users: [User]!
+  order(id: ID!): Order
 }
 type User {
   id: ID!
