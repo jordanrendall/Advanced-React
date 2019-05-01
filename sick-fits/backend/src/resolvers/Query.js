@@ -52,6 +52,28 @@ const Query = {
     //return order
     return order;
   },
+  async orders(parent, args, ctx, info) {
+    console.log('Running orders query');
+    //check if signed in
+    if (!ctx.request.userId) throw new Error('You must be signed in for that.');
+    //query orders for user
+    let orderList = await ctx.db.query.orders(
+      {
+        where: { user: { id: args.userId } },
+      },
+      info
+    );
+    if (!orderList) throw new Error('No orders for this user.');
+    //check if have permissions
+    console.log(orderList);
+    const hasPermissionToSeeOrders = ctx.request.user.permissions.includes(
+      'ADMIN'
+    );
+    if (!hasPermissionToSeeOrders) throw new Error('Insufficient permissions');
+    //return orders
+
+    return orderList;
+  },
 };
 
 module.exports = Query;
