@@ -1,6 +1,15 @@
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import User from './User';
+import OrderItemStyles from './styles/OrderItemStyles';
+import styled from 'styled-components';
+
+const OrderUl = styled.ul`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+`;
 
 const ORDERS_QUERY = gql`
   query ORDERS_QUERY {
@@ -36,15 +45,15 @@ const Orders = props => (
             if (loading) return <p>Loading Orders...</p>;
             console.log(orders);
             return (
-              <div>
+              <OrderUl>
                 {orders.map(order => (
-                  <div>
+                  <div key={order.id}>
                     <span>Order Date:</span>
                     <span>{order.createdAt}</span>
 
                     <div>
                       {order.items.map(item => (
-                        <div>
+                        <div key={item.id}>
                           <span>Item:</span>
                           <span>{item.title}</span>
                         </div>
@@ -52,7 +61,7 @@ const Orders = props => (
                     </div>
                   </div>
                 ))}
-              </div>
+              </OrderUl>
             );
           }}
         </Query>
