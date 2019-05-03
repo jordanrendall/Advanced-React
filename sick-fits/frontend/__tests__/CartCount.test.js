@@ -11,12 +11,12 @@ describe('<CartCount/>', () => {
     expect(toJSON(wrapper)).toMatchSnapshot();
   });
   it('updates via props', () => {
-    // const wrapper = shallow(<CartCount count={50} />);
+    const wrapper = shallow(<CartCount count={50} />);
     //mount simulates as if browser - shallow only goes one level deep
     //mounting preferred because closest to actual environment
-    const wrapper = mount(<CartCount count={50} />);
-    console.log(wrapper.debug());
-    return;
+    //const wrapper = mount(<CartCount count={50} />);
+    //console.log(wrapper.debug());
+    //return;
     expect(toJSON(wrapper)).toMatchSnapshot();
     wrapper.setProps({ count: 10 });
     expect(toJSON(wrapper)).toMatchSnapshot();
