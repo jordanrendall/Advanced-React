@@ -12,7 +12,7 @@ export default function Nav() {
     //put user render component as high as possible to allow toggling of display of links
     <User>
       {({ data: { me } }) => (
-        <NavStyles>
+        <NavStyles data-test='nav'>
           <Link href='/items'>
             <a>Shop</a>
           </Link>
