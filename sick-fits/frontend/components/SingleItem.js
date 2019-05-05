@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
-import Error from "./ErrorMessage";
-import styled from "styled-components";
-import Head from "next/head";
+import React, { Component } from 'react';
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
+import Error from './ErrorMessage';
+import styled from 'styled-components';
+import Head from 'next/head';
 
 const SingleItemStyles = styled.div`
   max-width: 1200px;
@@ -46,7 +46,7 @@ class SingleItem extends Component {
           if (error) return <Error error={error} />;
           if (loading) return <p>Loading...</p>;
           if (!data.item) return <p>No item found!</p>; //could be done on the server with a custom resolver
-          console.log(data);
+          // console.log(data);
           const item = data.item;
           return (
             <SingleItemStyles>
@@ -54,7 +54,7 @@ class SingleItem extends Component {
                 <title>Sick Fits | {item.title}</title>
               </Head>
               <img src={item.largeImage} alt={item.title} />
-              <div className="details">
+              <div className='details'>
                 <h2>Viewing {item.title}</h2>
                 <p>{item.description}</p>
               </div>
@@ -67,3 +67,4 @@ class SingleItem extends Component {
 }
 
 export default SingleItem;
+export { SINGLE_ITEM_QUERY };
