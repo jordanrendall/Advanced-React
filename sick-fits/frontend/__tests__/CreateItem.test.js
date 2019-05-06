@@ -83,7 +83,7 @@ describe('<CreateItem/>', () => {
             createItem: {
               ...fakeItem,
               id: 'abc123',
-              __typeName: 'Item',
+              __typename: 'Item',
             },
           },
         },
