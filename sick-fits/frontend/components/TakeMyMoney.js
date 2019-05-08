@@ -49,35 +49,38 @@ class TakeMyMoney extends React.Component {
   render() {
     return (
       <User>
-        {({ data: { me } }) =>
-          me.cart.length ? (
-            <Mutation
-              mutation={CREATE_ORDER_MUTATION}
-              refetchQueries={[{ query: CURRENT_USER_QUERY }]}
-            >
-              {createOrder => (
-                <StripeCheckout
-                  //ALWAYS NEED TO SEND CENTS TO STRIPE
-                  amount={calcTotalPrice(me.cart)}
-                  name='Sick Fits'
-                  description={`Order of ${totalItems(me.cart)} items!`}
-                  image={me.cart[0].item && me.cart[0].item.image}
-                  stripeKey='pk_test_jghjTBcGR38ihl8xhGJkGHaR00qYYejQct'
-                  currency='CAD'
-                  email={me.email}
-                  token={res => this.onToken(res, createOrder)}
-                >
-                  {this.props.children}
-                </StripeCheckout>
-              )}
-            </Mutation>
-          ) : (
-            <p>No items</p>
-          )
-        }
+        {({ data: { me }, loading }) => {
+          if (loading) return null;
+          if (me.cart) {
+            return (
+              <Mutation
+                mutation={CREATE_ORDER_MUTATION}
+                refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+              >
+                {createOrder => (
+                  <StripeCheckout
+                    //ALWAYS NEED TO SEND CENTS TO STRIPE
+                    amount={calcTotalPrice(me.cart)}
+                    name='Sick Fits'
+                    description={`Order of ${totalItems(me.cart)} items!`}
+                    image={me.cart[0].item && me.cart[0].item.image}
+                    stripeKey='pk_test_jghjTBcGR38ihl8xhGJkGHaR00qYYejQct'
+                    currency='CAD'
+                    email={me.email}
+                    token={res => this.onToken(res, createOrder)}
+                  >
+                    {this.props.children}
+                  </StripeCheckout>
+                )}
+              </Mutation>
+            );
+          }
+          return <p>No items</p>;
+        }}
       </User>
     );
   }
 }
 
 export default TakeMyMoney;
+export { CREATE_ORDER_MUTATION };
