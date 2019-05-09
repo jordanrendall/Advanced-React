@@ -31,8 +31,8 @@ class TakeMyMoney extends React.Component {
   onToken = async (res, createOrder) => {
     NProgress.start();
 
-    console.log('On token called');
-    console.log(res.id);
+    // console.log('On token called');
+    // console.log(res.id);
     //manually call mutation once we have stripe token
     const order = await createOrder({
       variables: {
@@ -51,7 +51,7 @@ class TakeMyMoney extends React.Component {
       <User>
         {({ data: { me }, loading }) => {
           if (loading) return null;
-          if (me.cart) {
+          if (me) {
             return (
               <Mutation
                 mutation={CREATE_ORDER_MUTATION}
