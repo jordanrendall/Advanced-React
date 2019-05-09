@@ -71,3 +71,4 @@ const Orders = props => (
 );
 
 export default Orders;
+export { ORDERS_QUERY };
